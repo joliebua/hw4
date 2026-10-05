@@ -1,0 +1,82 @@
+/* Retro-glam palette: cream stage, cherry red, bubblegum pink, sunflower and
+   pearl, with Yale navy for type so the merch still reads as campus wear. */
+:root {
+  --cream: #fbf4e8;
+  --paper: #fffaf2;
+  --ink: #1d2340;
+  --ink-soft: #5b5f78;
+  --cherry: #c8203f;
+  --cherry-deep: #9e1430;
+  --pink: #f6b8c8;
+  --pink-soft: #fde4ea;
+  --sun: #f4c542;
+  --sun-soft: #fdf0c4;
+  --sage: #9bb79a;
+  --pearl: #f1ece4;
+  --line: #ecdfcd;
+  --navy: #1d2b5c;
+
+  --radius: 18px;
+  --radius-sm: 12px;
+  --shadow: 0 1px 2px rgb(29 35 64 / 6%), 0 8px 24px rgb(29 35 64 / 7%);
+  --shadow-lift: 0 2px 4px rgb(29 35 64 / 8%), 0 16px 36px rgb(200 32 63 / 14%);
+
+  --display: 'Fraunces', 'Iowan Old Style', Georgia, serif;
+  --body: 'DM Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+
+  font-family: var(--body);
+  color: var(--ink);
+  background: var(--cream);
+  -webkit-font-smoothing: antialiased;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at 12% -10%, rgb(246 184 200 / 45%), transparent 40%),
+    radial-gradient(circle at 95% 10%, rgb(244 197 66 / 22%), transparent 35%),
+    var(--cream);
+  background-attachment: fixed;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--display);
+  margin: 0;
+  line-height: 1.15;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+  color: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+button:disabled {
+  cursor: not-allowed;
+}
+
+:focus-visible {
+  outline: 3px solid var(--sun);
+  outline-offset: 2px;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}

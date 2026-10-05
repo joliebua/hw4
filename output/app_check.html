@@ -1,0 +1,266 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Campus Customs — Live App Check</title>
+<style>
+  :root {
+    --yale: #00356b;
+    --yale-soft: #e6edf6;
+    --gold: #f4c542;
+    --cream: #fbf4e8;
+    --paper: #fffaf2;
+    --ink: #14213d;
+    --ink-soft: #5b5f78;
+    --line: #ecdfcd;
+    --pass: #2f6b3a;
+    --pass-soft: #e3efe1;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--cream);
+    color: var(--ink);
+    font: 16px/1.55 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  }
+  header.top {
+    background: var(--yale);
+    color: #fff;
+    padding: 28px 24px 24px;
+    border-bottom: 5px solid var(--gold);
+  }
+  .wrap { max-width: 1000px; margin: 0 auto; padding: 0 24px; }
+  header.top .wrap { padding: 0; }
+  h1 { margin: 0 0 6px; font-family: Georgia, "Times New Roman", serif; font-size: 32px; }
+  header.top p { margin: 0; color: #cfdcef; }
+  .meta {
+    margin: 22px 0 8px;
+    padding: 16px 20px;
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    font-size: 14.5px;
+  }
+  .meta dl { display: grid; grid-template-columns: max-content 1fr; gap: 4px 16px; margin: 0; }
+  .meta dt { font-weight: 700; }
+  .meta dd { margin: 0; color: var(--ink-soft); }
+  table.summary {
+    width: 100%;
+    margin: 18px 0 8px;
+    border-collapse: collapse;
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    overflow: hidden;
+    font-size: 15px;
+  }
+  table.summary th, table.summary td { padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--line); }
+  table.summary th { background: var(--yale-soft); color: var(--yale); }
+  table.summary tr:last-child td { border-bottom: 0; }
+  .pass {
+    display: inline-block;
+    padding: 2px 10px;
+    border-radius: 999px;
+    background: var(--pass-soft);
+    color: var(--pass);
+    font-weight: 800;
+    font-size: 13px;
+    letter-spacing: 0.04em;
+  }
+  section.check {
+    margin: 36px 0;
+    padding: 24px;
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-top: 6px solid var(--yale);
+    border-radius: 14px;
+  }
+  section.check h2 { margin: 0 0 6px; font-family: Georgia, serif; font-size: 25px; color: var(--yale); }
+  .steps { margin: 6px 0 16px; color: var(--ink-soft); font-size: 15px; }
+  .steps code { background: var(--yale-soft); padding: 1px 6px; border-radius: 5px; color: var(--ink); }
+  .proves {
+    margin: 0 0 18px;
+    padding: 12px 16px;
+    background: var(--pass-soft);
+    border-left: 5px solid var(--pass);
+    border-radius: 8px;
+  }
+  .proves strong { color: var(--pass); }
+  .shots { display: grid; grid-template-columns: 1fr; gap: 26px; }
+  figure { margin: 0; }
+  figure a { display: block; }
+  figure img {
+    width: 100%;
+    max-width: 800px; /* screenshots are 800px wide: show them at 1:1 so text stays sharp */
+    height: auto;
+    display: block;
+    border: 1px solid #cfd6e2;
+    border-radius: 10px;
+    box-shadow: 0 4px 14px rgb(0 53 107 / 10%);
+  }
+  figure.wide { grid-column: 1 / -1; }
+  figcaption { margin-top: 8px; font-size: 14px; color: var(--ink-soft); }
+  figcaption b { color: var(--ink); }
+  .db { margin: 18px 0 0; }
+  .db h3 { margin: 0 0 6px; font-size: 15px; color: var(--yale); }
+  .db table { border-collapse: collapse; font-size: 14px; background: #fff; border: 1px solid var(--line); }
+  .db th, .db td { padding: 6px 10px; border: 1px solid var(--line); text-align: center; }
+  .db th { background: var(--yale-soft); }
+  .db td.name { text-align: left; font-weight: 600; }
+  .zero { color: #b5233b; font-weight: 800; }
+  .hl { background: #fff4c7; font-weight: 800; }
+  footer { margin: 40px 0 60px; color: var(--ink-soft); font-size: 14px; }
+  footer code { background: var(--yale-soft); padding: 1px 6px; border-radius: 5px; color: var(--ink); }
+  .note { font-size: 13.5px; color: var(--ink-soft); margin-top: 10px; }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <h1>Campus Customs — Live App Check</h1>
+    <p>Homework 4 · Screenshots from the running website, with the database values they should match.</p>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <div class="meta">
+    <dl>
+      <dt>Tested</dt><dd>October 5, 2026, live on the local dev site (Vite front end → FastAPI backend)</dd>
+      <dt>Chatbot</dt><dd>Handsome Dan: PydanticAI agent, model <code>gpt-5.6-luna</code> via Portkey</dd>
+      <dt>Database</dt><dd><code>data/campus_customs.db</code> (tables <code>catalogue</code> and <code>inventory</code>)</dd>
+      <dt>Shopper</dt><dd>Guest (not signed in); fresh chat for each check</dd>
+    </dl>
+  </div>
+
+  <table class="summary">
+    <thead>
+      <tr><th>#</th><th>Check</th><th>Result</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>1</td><td><a href="#check-1">Chat checks an item's inventory: honest stock and price from the database</a></td><td><span class="pass">PASS</span></td></tr>
+      <tr><td>2</td><td><a href="#check-2">Dynamic search-result cards appear after a category question ("hoodies")</a></td><td><span class="pass">PASS</span></td></tr>
+      <tr><td>3</td><td><a href="#check-3">Usability feature from Problem 9: recommended size</a></td><td><span class="pass">PASS</span></td></tr>
+    </tbody>
+  </table>
+  <p class="note">Click any screenshot to open it full size. Images are in <code>app_check_images/</code>.</p>
+
+  <!-- =============================================================== CHECK 1 -->
+  <section class="check" id="check-1">
+    <h2>Check 1 — Chat checks inventory (honest stock &amp; price)</h2>
+    <p class="steps">
+      Steps: (a) on the <b>Yale Mom Hoodie</b> page, asked Dan
+      <code>How many of these do you have left in XXL, and what's the price?</code>
+      (b) on the Products page, asked <code>Is the Saybrook Logo T-shirt in stock in a large? How much is it?</code>
+    </p>
+    <p class="proves">
+      <strong>What this proves:</strong> Dan answers stock and price questions with the exact numbers in the database
+      ("2 on hand", "$68"). He also states plainly when a size is <b>sold out</b> (Saybrook tee in L = 0) and lists the real
+      counts for the other sizes. Nothing is invented.
+    </p>
+
+    <div class="shots">
+      <figure>
+        <a href="app_check_images/1_inventory_chat.png"><img src="app_check_images/1_inventory_chat.png" alt="Chat answering XXL stock and price for the Yale Mom Hoodie" /></a>
+        <figcaption><b>1a.</b> Dan: "The Yale Mom Hoodie is in stock in XXL: 2 on hand. Price: $68." The chat knows which item "these" means ("Asking about: Yale Mom Hoodie").</figcaption>
+      </figure>
+      <figure>
+        <a href="app_check_images/1_inventory_product_page.png"><img src="app_check_images/1_inventory_product_page.png" alt="Product page stock grid for the Yale Mom Hoodie" /></a>
+        <figcaption><b>1b.</b> The same product's page, which reads straight from the database, shows <b>$68</b> and <b>XXL: 2 left</b>, matching the chat.</figcaption>
+      </figure>
+      <figure class="wide">
+        <a href="app_check_images/1_inventory_sold_out.png"><img src="app_check_images/1_inventory_sold_out.png" alt="Chat stating the Saybrook Logo T-shirt is sold out in L" /></a>
+        <figcaption><b>1c.</b> Sold-out honesty: "The Saybrook Logo T Shirt is <b>sold out in L</b> right now. It's $32. Sizes still in stock: XS (12), S (20), M (12), XL (15), and XXL (5)." The card's size row also shows L struck through.</figcaption>
+      </figure>
+    </div>
+
+    <div class="db">
+      <h3>Database values at test time (<code>catalogue</code> + <code>inventory</code>)</h3>
+      <table>
+        <tr><th>Product</th><th>Price</th><th>XS</th><th>S</th><th>M</th><th>L</th><th>XL</th><th>XXL</th></tr>
+        <tr><td class="name">Yale Mom Hoodie</td><td class="hl">$68</td><td>25</td><td>8</td><td>8</td><td>25</td><td>8</td><td class="hl">2</td></tr>
+        <tr><td class="name">Saybrook Logo T Shirt</td><td class="hl">$32</td><td>12</td><td>20</td><td>12</td><td class="zero">0</td><td>15</td><td>5</td></tr>
+      </table>
+      <p class="note">Highlighted cells are the values Dan quoted. Every number in screenshots 1a–1c matches this table.</p>
+    </div>
+  </section>
+
+  <!-- =============================================================== CHECK 2 -->
+  <section class="check" id="check-2">
+    <h2>Check 2 — Dynamic search-result cards after a category question</h2>
+    <p class="steps">
+      Steps: on the Home page, asked Dan <code>Show me your hoodies</code>, then clicked one of the cards that appeared.
+    </p>
+    <p class="proves">
+      <strong>What this proves:</strong> a category question makes Dan search the catalogue, and the site then
+      <b>shows the matching items as product cards</b> (image, name, price, short info, sizes) without a page reload.
+      The cards come from the database: 25 hoodies matched, and 24 are shown, as labelled. Each card still opens the
+      full product page.
+    </p>
+
+    <div class="shots">
+      <figure>
+        <a href="app_check_images/2_hoodies_chat_and_cards.png"><img src="app_check_images/2_hoodies_chat_and_cards.png" alt="Chat reply and hoodie cards appearing on the page" /></a>
+        <figcaption><b>2a.</b> Dan: "I sniffed out 25 in-stock hoodies…", and a "Yale Hoodies" results section appears on the page: "Dan found 25 items · showing 24".</figcaption>
+      </figure>
+      <figure>
+        <a href="app_check_images/2_hoodies_cards_grid.png"><img src="app_check_images/2_hoodies_cards_grid.png" alt="Grid of hoodie product cards" /></a>
+        <figcaption><b>2b.</b> The cards: photo, name, hang-tag price, short description, and XS–XXL availability (sold-out sizes struck through). Dan's favourites are marked "Dan's pick".</figcaption>
+      </figure>
+      <figure class="wide">
+        <a href="app_check_images/2_card_opens_product_page.png"><img src="app_check_images/2_card_opens_product_page.png" alt="Clicking a hoodie card opens its product page" /></a>
+        <figcaption><b>2c.</b> Clicking the <b>Champion Reverse Weave Hoodie</b> card opens its product page: large photo on the left; price, description and stock by size on the right. The results collapse to a "Yale Hoodies · 25 items" bar above it.</figcaption>
+      </figure>
+    </div>
+
+    <div class="db">
+      <h3>Database check</h3>
+      <table>
+        <tr><th>Hoodies in catalogue</th><th>In stock</th><th>Priced $68</th><th>Priced $45</th></tr>
+        <tr><td class="hl">25</td><td class="hl">25</td><td>23</td><td>2</td></tr>
+      </table>
+      <p class="note">Matches Dan's reply ("25 in-stock hoodies, with options at $45 and $68") and the "Dan found 25 items" count.</p>
+    </div>
+  </section>
+
+  <!-- =============================================================== CHECK 3 -->
+  <section class="check" id="check-3">
+    <h2>Check 3 — Usability feature (Problem 9): Recommended size</h2>
+    <p class="steps">
+      Steps: as a guest with no size set, opened the <b>Saybrook Logo T Shirt</b> page (sold out in L), then picked
+      <code>L</code> in "What size do you usually wear?".
+    </p>
+    <p class="proves">
+      <strong>What this proves:</strong> the product page recommends a size from the size the shopper says is theirs, adjusted
+      for this item's stock. L is sold out, so it explains that and recommends <b>XL</b> (the nearest size in stock, 15 left),
+      pre-selecting it. The shopper doesn't have to read every size box to find one that's available.
+    </p>
+
+    <div class="shots">
+      <figure>
+        <a href="app_check_images/3_size_before.png"><img src="app_check_images/3_size_before.png" alt="Size advisor asking which size the shopper wears" /></a>
+        <figcaption><b>3a.</b> Before: with no size known, the page asks "What size do you usually wear?". The stock grid shows <b>L sold out</b>.</figcaption>
+      </figure>
+      <figure>
+        <a href="app_check_images/3_size_recommended.png"><img src="app_check_images/3_size_recommended.png" alt="Recommended size XL with explanation" /></a>
+        <figcaption><b>3b.</b> After picking L: "Recommended size: <b>XL</b>. L is the size you told us you wear, but this item is sold out in L. XL is the closest size in stock (one size up; 15 left)." XL is pre-selected.</figcaption>
+      </figure>
+      <figure class="wide">
+        <a href="app_check_images/3_related_in_your_size.png"><img src="app_check_images/3_related_in_your_size.png" alt="You might also like row marked In your size L" /></a>
+        <figcaption><b>3c.</b> Bonus, the other Problem 9 feature: <b>"You might also like"</b> on the same page shows similar items (Saybrook pieces first), each marked "✓ In your size (L)", with the shopper's size ringed in each card's size row.</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <footer>
+    <p><b>Reproduce:</b> from <code>Homework 4/backend</code> run <code>uvicorn main:app --reload --port 8000</code>; from
+      <code>Homework 4/frontend</code> run <code>npm run dev</code>; open <code>http://127.0.0.1:5173</code>.
+      The chat needs <code>PORTKEY_API_KEY</code> in a <code>.env</code>.</p>
+    <p><b>Automated tests at the same time:</b> <code>backend/test_agent.py</code> 26 passed ·
+      <code>backend/test_sizes.py</code> 8 passed · <code>backend/test_auth.py</code> 7 passed.</p>
+  </footer>
+</main>
+</body>
+</html>
